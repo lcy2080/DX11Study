@@ -2,22 +2,26 @@
 // Created by LeeChangYoung on 2019-05-24.
 //
 
-#include "Systemclass.h"
+#include "SystemClass.h"
 
-Systemclass::Systemclass() {
+SystemClass::SystemClass()
+    : m_hinstance(nullptr)
+    , m_applicationName(nullptr)
+    , m_hwnd(nullptr)
+{
     m_Input = nullptr;
     m_Graphics = nullptr;
 }
 
-Systemclass::Systemclass(const Systemclass &) {
+SystemClass::SystemClass(const SystemClass &) {
 
 }
 
-Systemclass::~Systemclass() {
+SystemClass::~SystemClass() {
 
 }
 
-bool Systemclass::Initialize() {
+bool SystemClass::Initialize() {
     int screenWidth, screenHeight;
     bool result;
 
@@ -50,7 +54,7 @@ bool Systemclass::Initialize() {
     return true;
 }
 
-void Systemclass::Shutdown()
+void SystemClass::Shutdown()
 {
     if (m_Graphics)
     {
@@ -68,7 +72,7 @@ void Systemclass::Shutdown()
     return;
 }
 
-void Systemclass::Run()
+void SystemClass::Run()
 {
     MSG msg;
     bool done, result;
@@ -101,7 +105,7 @@ void Systemclass::Run()
     return;
 }
 
-bool Systemclass::Frame()
+bool SystemClass::Frame()
 {
     bool result;
 
@@ -119,7 +123,7 @@ bool Systemclass::Frame()
     return true;
 }
 
-LRESULT Systemclass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
+LRESULT SystemClass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
     switch (umsg)
     {
@@ -138,7 +142,7 @@ LRESULT Systemclass::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM 
     }
 }
 
-void Systemclass::InitializeWindows(int& screenWidth, int& screenHeight)
+void SystemClass::InitializeWindows(int& screenWidth, int& screenHeight)
 {
     WNDCLASSEXW wc;
     DEVMODE dmScreenSettings;
@@ -191,7 +195,7 @@ void Systemclass::InitializeWindows(int& screenWidth, int& screenHeight)
         posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
         posY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
     }
-
+    
     m_hwnd = CreateWindowExW(WS_EX_APPWINDOW, m_applicationName, m_applicationName
             , WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP
             , posX, posY, screenWidth, screenHeight, NULL, NULL, m_hinstance, NULL);
@@ -205,7 +209,7 @@ void Systemclass::InitializeWindows(int& screenWidth, int& screenHeight)
     return;
 }
 
-void Systemclass::ShutdownWindows()
+void SystemClass::ShutdownWindows()
 {
     ShowCursor(true);
 
@@ -225,7 +229,7 @@ void Systemclass::ShutdownWindows()
     return;
 }
 
-LRESULT WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
+LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 {
     switch(umessage)
     {

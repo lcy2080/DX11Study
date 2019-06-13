@@ -1,14 +1,15 @@
+#include <windows.h>
 #include <iostream>
 
-#include "Systemclass.h"
+#include "SystemClass.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
 {
-    Systemclass* System;
+    SystemClass* System;
     bool result;
 
-    System = new Systemclass();
-    if (!System)
+    System = new SystemClass();
+    if (nullptr == System)
     {
         return 0;
     }

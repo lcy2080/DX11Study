@@ -5,8 +5,16 @@
 #ifndef STEP0_GRAPHICSCLASS_H
 #define STEP0_GRAPHICSCLASS_H
 
-#include <windows.h>
+//#include <windows.h>
 
+///////////////////////
+// MY CLASS INCLUDES //
+///////////////////////
+#include "d3dclass.h"
+
+/////////////
+// GLOBALS //
+/////////////
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENAGLED = true;
 const float SCREEN_DEPTH = 1000.0f;
@@ -16,7 +24,7 @@ const float SCREEN_NEAR = 0.1f;
 class GraphicsClass
 {
 public:
-    GraphicsClass() = default;
+    GraphicsClass();
     GraphicsClass(const GraphicsClass&) = default;
     ~GraphicsClass() = default;
 
@@ -26,6 +34,9 @@ public:
 
 private:
     bool Render();
+
+private:
+    D3DClass* m_D3D;
 };
 
 

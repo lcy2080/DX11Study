@@ -6,7 +6,7 @@
 
 void InputClass::Initialize()
 {
-    for (int i; i < 256; i++)
+    for (int i = 0; i < 256; i++)
     {
         m_keys[i] = false;
     }

@@ -26,11 +26,11 @@
 //////////////////////////////
 // CLASS NAME : SYSTEMCLASS //
 //////////////////////////////
-class Systemclass {
+class SystemClass {
 public:
-    Systemclass();
-    Systemclass(const Systemclass&);
-    ~Systemclass();
+    SystemClass();
+    SystemClass(const SystemClass&);
+    ~SystemClass();
 
     bool Initialize();
     void Shutdown();
@@ -60,6 +60,6 @@ static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 /////////////
 // GLOBALS //
 /////////////
-static Systemclass* ApplicationHandle = 0;
+static SystemClass* ApplicationHandle = 0;
 
 #endif //STEP0_SYSTEMCLASS_H
