@@ -4,11 +4,29 @@ project(Step0)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_SYSTEM_PROCESSOR amd64)
-set(WinLibPath "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/$(CMAKE_SYSTEM_PROCESSOR)")
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    #add_compile_options(/arch:SSE2)
+endif()
 
-include_directories("C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/um")
-link_directories($(WinLibPath))
+cmake_host_system_information(RESULT os_name QUERY OS_NAME)
+message("OS NAME : " ${os_name})
+message("Host System Processor : " ${CMAKE_HOST_SYSTEM_PROCESSOR})
 
-add_executable(Step0 main.cpp SystemClass.cpp SystemClass.h InputClass.cpp InputClass.h GraphicsClass.cpp GraphicsClass.h d3dclass.cpp d3dclass.h)
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+if(os_name STREQUAL "Windows")
+    message("Current OS : " ${os_name})
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
+        message("Target System Processor : " ${CMAKE_SYSTEM_PROCESSOR})
+        set(WinLibPath "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64")
+        include_directories("C:/Program Files (x86)/Windows Kits/10/Include/10.0.17763.0/um")
+    elseif()
+        message(ERROR "Cannot get Windows and DX Lib.")
+    endif()
+    #link_directories($(WinLibPath))
+endif()
+
+
+add_executable(Step0 main.cpp SystemClass.cpp SystemClass.h InputClass.cpp InputClass.h GraphicsClass.cpp GraphicsClass.h d3dclass.cpp d3dclass.h AlignedAllocationPolicy.h ColorShaderClass.cpp ColorShaderClass.h ModelClass.cpp ModelClass.h CameraClass.cpp CameraClass.h)
+
+if(os_name STREQUAL "Windows")
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+endif()
