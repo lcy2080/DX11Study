@@ -7,6 +7,16 @@
 #include "ModelClass.h"
 #include "ColorShaderClass.h"
 #include "GraphicsClass.h"
+#include "TextureShaderClass.h"
+
+GraphicsClass::GraphicsClass()
+    : m_Direct3D(nullptr)
+    , m_Camera(nullptr)
+    , m_Model(nullptr)
+    , m_TextureShader(nullptr)
+{
+}
+
 
 bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
@@ -40,22 +50,23 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
         return false;
     }
 
-    if (!m_Model->Initialize(m_Direct3D->GetDevice()))
+    //Initialize the model object.
+    if (!m_Model->Initialize(m_Direct3D->GetDevice(), m_Direct3D->GetDeviceContext(), "E:/Git/DX11/Step0/rock_02_dif.tga"))
     {
         MessageBoxW(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
         return false;
     }
 
-    //generate color shader object
-    m_ColorShader = new ColorShaderClass;
-    if (!m_ColorShader)
+    // Create the texture shader object.
+    m_TextureShader = new TextureShaderClass;
+    if (!m_TextureShader)
     {
         return false;
     }
 
-    if (!m_ColorShader->Initialize(m_Direct3D->GetDevice(), hwnd))
+    if (!m_TextureShader->Initialize(m_Direct3D->GetDevice(), hwnd))
     {
-        MessageBoxW(hwnd, L"Could not initialize the color shader object.", L"Error", MB_OK);
+        MessageBoxW(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
         return false;
     }
 
@@ -65,11 +76,11 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
 void GraphicsClass::Shutdown()
 {
     //return color shader object
-    if (m_ColorShader)
+    if (m_TextureShader)
     {
-        m_ColorShader->Shutdown();
-        delete m_ColorShader;
-        m_ColorShader = nullptr;
+        m_TextureShader->Shutdown();
+        delete m_TextureShader;
+        m_TextureShader= nullptr;
     }
 
     //return model object
@@ -119,8 +130,8 @@ bool GraphicsClass::Render()
     m_Model->Render(m_Direct3D->GetDeviceContext());
 
     //render model
-    if (!m_ColorShader->Render(m_Direct3D->GetDeviceContext(),
-            m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix))
+    if (!m_TextureShader->Render(m_Direct3D->GetDeviceContext(),
+            m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture()))
     {
         return false;
     }
@@ -130,3 +141,4 @@ bool GraphicsClass::Render()
 
     return true;
 }
+
