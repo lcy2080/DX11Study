@@ -5,10 +5,11 @@
 #ifndef STEP0_TEXTURECLASS_H
 #define STEP0_TEXTURECLASS_H
 
-
 #include <d3d11.h>
 
-class TextureClass
+#include "AlignedAllocationPolicy.h"
+
+class TextureClass : public AlignedAllocationPolicy<16>
 {
 private:
 

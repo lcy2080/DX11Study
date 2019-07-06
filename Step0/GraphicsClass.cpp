@@ -5,15 +5,16 @@
 #include "d3dclass.h"
 #include "CameraClass.h"
 #include "ModelClass.h"
-#include "ColorShaderClass.h"
 #include "GraphicsClass.h"
-#include "TextureShaderClass.h"
+#include "LightShaderClass.h"
+#include "LightClass.h"
 
 GraphicsClass::GraphicsClass()
     : m_Direct3D(nullptr)
     , m_Camera(nullptr)
     , m_Model(nullptr)
-    , m_TextureShader(nullptr)
+    , m_LightShader(nullptr)
+    , m_Light(nullptr)
 {
 }
 
@@ -57,30 +58,49 @@ bool GraphicsClass::Initialize(int screenWidth, int screenHeight, HWND hwnd)
         return false;
     }
 
-    // Create the texture shader object.
-    m_TextureShader = new TextureShaderClass;
-    if (!m_TextureShader)
+    // Create the light shader object.
+    m_LightShader = new LightShaderClass;
+    if (!m_LightShader)
     {
         return false;
     }
 
-    if (!m_TextureShader->Initialize(m_Direct3D->GetDevice(), hwnd))
+    //Initialize the light shader object.
+    if (!m_LightShader->Initialize(m_Direct3D->GetDevice(), hwnd))
     {
-        MessageBoxW(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
+        MessageBoxW(hwnd, L"Could not initialize the light shader object.", L"Error", MB_OK);
         return false;
     }
+
+    //Create the light object.
+    m_Light = new LightClass;
+    if (!m_Light)
+    {
+        return false;
+    }
+
+    //Initialize the light object.
+    m_Light->SetDiffuseColor(1.f, 0.f, 1.f, 1.f);
+    m_Light->SetDirection(0.f, 0.f, 1.f);
 
     return true;
 }
 
 void GraphicsClass::Shutdown()
 {
-    //return color shader object
-    if (m_TextureShader)
+    //Release the light object.
+    if (m_Light)
     {
-        m_TextureShader->Shutdown();
-        delete m_TextureShader;
-        m_TextureShader= nullptr;
+        delete m_Light;
+        m_Light = nullptr;
+    }
+
+    //Release light shader object
+    if (m_LightShader)
+    {
+        m_LightShader->Shutdown();
+        delete m_LightShader;
+        m_LightShader = nullptr;
     }
 
     //return model object
@@ -109,10 +129,19 @@ void GraphicsClass::Shutdown()
 
 bool GraphicsClass::Frame()
 {
-    return Render();
+    static float rotation = 0.f;
+
+    //Update the rotation variable each frame.
+    rotation += XM_PI * 0.01f;
+    if (rotation > 360.f)
+    {
+        rotation -= 360.f;
+    }
+
+    return Render(rotation);
 }
 
-bool GraphicsClass::Render()
+bool GraphicsClass::Render(float rotation)
 {
     //erase buffer before draw scene
     m_Direct3D->BeginScene(0.0f, 0.0f, 0.0f, 1.0f);
@@ -126,12 +155,15 @@ bool GraphicsClass::Render()
     m_Camera->GetViewMatrix(viewMatrix);
     m_Direct3D->GetProjectionMatrix(projectionMatrix);
 
+    //Rotate the world matrix by the rotation vlaue so that the triangle will spin.
+    worldMatrix = XMMatrixRotationY(rotation);
+
     //ready to drawing, ...
     m_Model->Render(m_Direct3D->GetDeviceContext());
 
-    //render model
-    if (!m_TextureShader->Render(m_Direct3D->GetDeviceContext(),
-            m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture()))
+    //render the model using the light shader.
+    if (!m_LightShader->Render(m_Direct3D->GetDeviceContext(),
+            m_Model->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix, m_Model->GetTexture(), m_Light->GetDirection(), m_Light->GetDiffuseColor()))
     {
         return false;
     }
