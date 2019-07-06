@@ -43,7 +43,7 @@ if(os_name STREQUAL "Windows")
 endif()
 
 
-add_executable(Step0 main.cpp SystemClass.cpp SystemClass.h InputClass.cpp InputClass.h GraphicsClass.cpp GraphicsClass.h d3dclass.cpp d3dclass.h AlignedAllocationPolicy.h ColorShaderClass.cpp ColorShaderClass.h ModelClass.cpp ModelClass.h CameraClass.cpp CameraClass.h TextureShaderClass.cpp TextureShaderClass.h TextureClass.cpp TextureClass.h)
+add_executable(Step0 main.cpp SystemClass.cpp SystemClass.h InputClass.cpp InputClass.h GraphicsClass.cpp GraphicsClass.h d3dclass.cpp d3dclass.h AlignedAllocationPolicy.h ColorShaderClass.cpp ColorShaderClass.h ModelClass.cpp ModelClass.h CameraClass.cpp CameraClass.h TextureShaderClass.cpp TextureShaderClass.h TextureClass.cpp TextureClass.h LightShaderClass.cpp LightShaderClass.h LightClass.cpp LightClass.h)
 
 if(os_name STREQUAL "Windows")
     target_link_libraries(Step0 winmm.lib)
