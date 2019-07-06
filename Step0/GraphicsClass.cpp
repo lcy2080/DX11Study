@@ -156,7 +156,7 @@ bool GraphicsClass::Render(float rotation)
     m_Direct3D->GetProjectionMatrix(projectionMatrix);
 
     //Rotate the world matrix by the rotation vlaue so that the triangle will spin.
-    worldMatrix = XMMatrixRotationY(rotation);
+    worldMatrix = worldMatrix * XMMatrixRotationY(rotation);
 
     //ready to drawing, ...
     m_Model->Render(m_Direct3D->GetDeviceContext());
