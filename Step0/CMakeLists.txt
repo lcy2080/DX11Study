@@ -9,7 +9,10 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 endif()
 
 cmake_host_system_information(RESULT os_name QUERY OS_NAME)
+cmake_host_system_information(RESULT os_version QUERY OS_VERSION)
+
 message("OS NAME : " ${os_name})
+message("OS VERSION : " ${os_version})
 message("Host System Processor : " ${CMAKE_HOST_SYSTEM_PROCESSOR})
 
 if(os_name STREQUAL "Windows")
@@ -17,7 +20,7 @@ if(os_name STREQUAL "Windows")
     if(CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
         message("Target System Processor : " ${CMAKE_SYSTEM_PROCESSOR})
 
-        set(WinLibPath
+        link_directories(
                 #"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/lib/x64"
                 #"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/atlmfc/lib/x64"
                 #"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Auxiliary/VS/lib/x64"
@@ -39,7 +42,6 @@ if(os_name STREQUAL "Windows")
     elseif()
         message(ERROR "Cannot get Windows and DX Lib.")
     endif()
-    link_directories($(WinLibPath))
 endif()
 
 

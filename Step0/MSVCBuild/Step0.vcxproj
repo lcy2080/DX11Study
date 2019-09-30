@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -18,7 +21,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -70,7 +73,7 @@
     </Midl>
     <Link>
       <AdditionalDependencies>winmm.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:/Git/DX11/Step0/$(WinLibPath);E:/Git/DX11/Step0/$(WinLibPath)/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64;C:/Program Files (x86)/Windows Kits/10/Lib/10.0.17763.0/um/x64/$(Configuration);C:/Program Files (x86)/Windows Kits/10/lib/10.0.17763.0/ucrt/x64;C:/Program Files (x86)/Windows Kits/10/lib/10.0.17763.0/ucrt/x64/$(Configuration);C:/Program Files (x86)/Windows Kits/NETFXSDK/4.7.2/lib/um/x64;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.7.2/lib/um/x64/$(Configuration);C:/Program Files (x86)/Windows Kits/NETFXSDK/4.7.2/Lib/um/x64;C:/Program Files (x86)/Windows Kits/NETFXSDK/4.7.2/Lib/um/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -120,6 +123,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="E:\Git\DX11\Step0\TextureShaderClass.h" />
     <ClCompile Include="E:\Git\DX11\Step0\TextureClass.cpp" />
     <ClInclude Include="E:\Git\DX11\Step0\TextureClass.h" />
+    <ClCompile Include="E:\Git\DX11\Step0\LightShaderClass.cpp" />
+    <ClInclude Include="E:\Git\DX11\Step0\LightShaderClass.h" />
+    <ClCompile Include="E:\Git\DX11\Step0\LightClass.cpp" />
+    <ClInclude Include="E:\Git\DX11\Step0\LightClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="E:\Git\DX11\Step0\MSVCBuild\ZERO_CHECK.vcxproj">
